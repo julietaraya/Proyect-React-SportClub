@@ -15,4 +15,8 @@ function AdminLayout() {
     )
 }
 
+<Link className="nav-link" to="/admin/users">
+    Usuarios 
+</Link>
+
 export default AdminLayout
