@@ -1,17 +1,23 @@
-import {Link, Outlet} from 'react-router-dom'
+import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import '../styles/user.css';
+import '../styles/styles.css';
 
-function UserLayout() {
-    return (
-        <section>
-            <nav className="navbar-user">
-                <Link to="/">Inicio</Link> |
-                <Link to="/user/dashboard">Dashboard Usuario</Link> |
-            </nav>
-            <main>
-                <Outlet />
-            </main>
-        </section>
-    )
+function UserLayout({ children }) {
+  return (
+    <div>
+      <Navbar className="header" variant="dark">
+        <Navbar.Brand>SportClub</Navbar.Brand>
+        <Nav className="ml-auto">
+          <Nav.Link href="/profile">Mi Perfil</Nav.Link>
+          <Nav.Link href="/logout">Cerrar Sesión</Nav.Link>
+        </Nav>
+      </Navbar>
+      <Container className="mt-4">
+        {children}
+      </Container>
+    </div>
+  );
 }
 
-export default UserLayout
+export default UserLayout;

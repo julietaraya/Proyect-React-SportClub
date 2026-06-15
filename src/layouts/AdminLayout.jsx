@@ -1,18 +1,23 @@
-import {Link, Outlet} from 'react-router-dom'
+import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import '../styles/admin.css'; // estilos morado/rojo
+import '../styles/styles.css'; // estilos generales
 
-function AdminLayout() {
-    return (
-        <section>
-            <nav className="navbar-admin">
-                <Link to="/">Inicio</Link> |
-                <Link to="/admin/dashboard">Dashboard Admin</Link>
-            </nav>
-
-            <main>
-                <Outlet />
-            </main>
-        </section>
-    )
+function AdminLayout({ children }) {
+  return (
+    <div>
+      <Navbar className="header" variant="dark">
+        <Navbar.Brand>SportClub</Navbar.Brand>
+        <Nav className="ml-auto">
+          <Nav.Link href="/profile">Mi Perfil</Nav.Link>
+          <Nav.Link href="/logout">Cerrar Sesión</Nav.Link>
+        </Nav>
+      </Navbar>
+      <Container className="mt-4">
+        {children}
+      </Container>
+    </div>
+  );
 }
 
-export default AdminLayout
+export default AdminLayout;

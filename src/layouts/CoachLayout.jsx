@@ -1,17 +1,23 @@
-import {Link, Outlet} from 'react-router-dom'
+import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import '../styles/coach.css';
+import '../styles/styles.css';
 
-function CoachLayout() {
-    return (
-        <section>
-            <nav className="navbar-coach">
-                <Link to="/">Inicio</Link> |
-                <Link to="/coach/dashboard">Dashboard Coach</Link> |
-            </nav>
-            <main>
-                <Outlet />
-            </main>
-        </section>
-    )
+function CoachLayout({ children }) {
+  return (
+    <div>
+      <Navbar className="header" variant="dark">
+        <Navbar.Brand>SportClub</Navbar.Brand>
+        <Nav className="ml-auto">
+          <Nav.Link href="/profile">Mi Perfil</Nav.Link>
+          <Nav.Link href="/logout">Cerrar Sesión</Nav.Link>
+        </Nav>
+      </Navbar>
+      <Container className="mt-4">
+        {children}
+      </Container>
+    </div>
+  );
 }
 
-export default CoachLayout
+export default CoachLayout;
