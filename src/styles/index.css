@@ -1,3 +1,9 @@
+:root{
+    --primary: #0d6efd;
+    --primary-dark: #0a58ca;
+    --primary-light: #cfe2ff;
+}
+
 .hero-with-bg {
     position: relative;
     overflow: hidden;
@@ -7,7 +13,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.842)), url('src/assets/gym.jpg') center / cover no-repeat;
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.842)), url('../assets/gym.jpg') center / cover no-repeat;
     opacity: 0.8;
     z-index: -1;
     filter: blur(2px);

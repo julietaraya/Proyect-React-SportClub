@@ -3,7 +3,7 @@ import { Badge, Button, Card, Spinner, Table } from "react-bootstrap"
 import Swal from "sweetalert2"
 
 import UserFormModal from "../../components/users/userFormModal"
-import { createUser, deleteUser, getUsers, updateUser } from "../../services/UserService"
+import { createUser, deleteUser, getUsers, updateUser } from "../../services/userService"
 
 function UsersPage() {
     const [users, setUsers] = useState([])

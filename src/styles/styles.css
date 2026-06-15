@@ -1,9 +1,6 @@
 /*1. VARIABLES CSS (Custom Properties)*/
     :root {
     /* Paleta de colores */
-    --primary: #0d6efd;
-    --primary-dark: #0a58ca;
-    --primary-light: #cfe2ff;
     --success: #198754;
     --danger: #dc3545;
     --warning: #ffc107;
@@ -258,6 +255,114 @@
     .card,
     .alert {
     animation: fadeIn 0.3s ease;
+
+    /* --------------------------------------------------------
+    LANDING PAGE
+    -------------------------------------------------------- */
+    .landing-page {
+        min-height: 100vh;
+        background: linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%);
+    }
+
+    .landing-navbar {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+    }
+
+    .brand-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+    }
+
+    .brand-logo,
+    .hero-icon {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .brand-logo {
+        width: 220px;
+    }
+
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+        padding: 5rem 0 4rem;
+    }
+
+    .hero-with-bg {
+        background: url('../assets/gym.jpg') no-repeat center center;
+        background-size: cover;
+        position: relative;
+    }
+    .hero-with-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.4); /* efecto overlay */
+    }
+
+
+    .hero-title,
+    .hero-copy {
+        text-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .hero-image-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        border-radius: 2rem;
+        background: rgba(255, 255, 255, 0.76);
+        box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .hero-icon {
+        width: min(420px, 100%);
+    }
+
+    .feature-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 1rem 2rem rgba(15, 23, 42, 0.12) !important;
+    }
+
+    .feature-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: var(--primary-light);
+        color: var(--primary);
+        font-size: 1.6rem;
+    }
+
+    .landing-footer {
+        border-top: 1px solid rgba(229, 231, 235, 0.9);
+        background: rgba(255, 255, 255, 0.74);
+    }
+
+    @media (max-width: 991.98px) {
+        .hero-section {
+            padding: 3.5rem 0 3rem;
+        }
+
+        .hero-image-wrapper {
+            padding: 1.5rem;
+        }
+    }
     }
 
     
@@ -330,4 +435,8 @@
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
+    }
+
+    .bg-purple {
+        background-color: #6f42c1 !important; /* morado Bootstrap */
     }

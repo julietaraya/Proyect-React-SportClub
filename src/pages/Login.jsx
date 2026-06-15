@@ -1,84 +1,96 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import { loginUser, saveSession } from "../services/authServices"
-import "../styles.css"
+import React, { useState } from "react";
+import { Form, Button, Card, Alert } from "react-bootstrap";
+import { useNavigate, Link } from "react-router-dom";
+import "../styles/styles.css";
+import "../styles/index.css"; // estilos para login/registro
 
-function Login() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [errorEmail, setErrorEmail] = useState("")
-    const [errorPassword, setErrorPassword] = useState("")
-    const [alerta, setAlerta] = useState("")
-    const [cargando, setCargando] = useState(false)
-    const navigate = useNavigate()
+function Login({ setIsAuth, setUserRole }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    const validarFormatoEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const redirigirPorRol = (rol) => {
-        const rutas = { admin: "/admin/dashboard", coach: "/coach/dashboard", user: "/user/dashboard" }
-        navigate(rutas[rol] || "/user/dashboard")
+    if (!email || !password) {
+      setError("Todos los campos son obligatorios");
+      return;
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setErrorEmail("")
-        setErrorPassword("")
-        setAlerta("")
+    try {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-        let hayErrores = false
-        if (!email.trim()) { setErrorEmail("El email es obligatorio"); hayErrores = true }
-        else if (!validarFormatoEmail(email.trim())) { setErrorEmail("Formato de email inválido"); hayErrores = true }
-        if (!password) { setErrorPassword("La contraseña es obligatoria"); hayErrores = true }
-        if (hayErrores) return
+      const data = await response.json();
 
-        setCargando(true)
-        try {
-            const data = await loginUser({ email: email.trim(), password })
-            saveSession(data.token, data.user)   // ← ajusta si tu backend envuelve en data.data
-            redirigirPorRol(data.user.role)
-        } catch (error) {
-        setAlerta(error.message || "Error al iniciar sesión")
-        } finally {
-        setCargando(false)
-        }
+      if (response.ok) {
+        // Guardar token y usuario en localStorage
+        localStorage.setItem("token", data.data.token);
+        localStorage.setItem("user", JSON.stringify(data.data.user));
+
+        // Actualizar estado global
+        setIsAuth(true);
+        setUserRole(data.data.user.role);
+
+        // Redirigir según rol
+        if (data.data.user.role === "user") navigate("/user/UserDashboard");
+        if (data.data.user.role === "coach") navigate("/coach/CoachDashboard");
+        if (data.data.user.role === "admin") navigate("/admin/AdminDashboard");
+      } else {
+        setError(data.message || "Credenciales inválidas");
+      }
+    } catch (err) {
+      setError("Error de conexión con el servidor");
     }
+  };
 
-    return (
+  return (
     <div className="auth-page">
-        <div className="auth-card">
-        <div className="text-center mb-4">
-            <img src="/assets/img/logo_empresa_letra_v1.png" alt="Logo SportClub" className="auth-logo" />
+      <Card className="auth-card">
+        <h2 className="mb-4 text-center">Iniciar Sesión</h2>
+        {error && <Alert variant="danger">{error}</Alert>}
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Ingresa tu correo"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Contraseña</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Ingresa tu contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Button type="submit" variant="primary" className="w-100">
+            Iniciar Sesión
+          </Button>
+        </Form>
+
+        {/* Bloque con enlaces juntos */}
+        <div className="mt-3 text-center d-flex justify-content-between">
+          <Link to="/register">¿No tienes cuenta? Regístrate</Link>
+          <Link to="/" className="text-muted">
+            Volver al inicio
+          </Link>
         </div>
-        <h1 className="h3 text-center mb-4">Iniciar Sesión</h1>
-        <form onSubmit={handleSubmit} noValidate>
-            <div className="mb-3">
-            <label htmlFor="email" className="form-label">Email</label>
-            <input type="email" id="email"
-                className={`form-control ${errorEmail ? "is-invalid" : ""}`}
-                placeholder="tucorreo@demo.cl" value={email}
-                onChange={(e) => setEmail(e.target.value)} />
-            {errorEmail && <div className="invalid-feedback">{errorEmail}</div>}
-            </div>
-            <div className="mb-3">
-            <label htmlFor="password" className="form-label">Contraseña</label>
-            <input type="password" id="password"
-                className={`form-control ${errorPassword ? "is-invalid" : ""}`}
-                placeholder="Ingresa tu contraseña" value={password}
-                onChange={(e) => setPassword(e.target.value)} />
-            {errorPassword && <div className="invalid-feedback">{errorPassword}</div>}
-            </div>
-            {alerta && <div className="alert alert-danger" role="alert">{alerta}</div>}
-            <button type="submit" className="btn btn-primary w-100 mb-3" disabled={cargando}>
-                <i className="bi bi-box-arrow-in-right"></i> {cargando ? "Ingresando…" : "Ingresar"}
-            </button>
-            <div className="text-center">
-                <Link to="/" className="link-secondary me-3"><i className="bi bi-arrow-left"></i> Inicio</Link>
-                <Link to="/registro" className="link-primary">¿No tienes cuenta? Regístrate</Link>
-            </div>
-            </form>
-        </div>
+      </Card>
     </div>
-    )
+  );
 }
 
-export default Login
+export default Login;

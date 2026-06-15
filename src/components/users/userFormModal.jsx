@@ -94,3 +94,5 @@ function UserFormModal({ show, handleClose, handleSave, selectedUser }) {
         </Modal>
     )
 }
+
+export default UserFormModal

@@ -1,4 +1,5 @@
-const API_URL = 'http://localhost:8080/api/users'
+const API_URL = 'http://localhost:3000/api/users'
+
 
 function getToken() {
     return localStorage.getItem('token')
@@ -23,7 +24,7 @@ export async function getUsers() {
     return response.json()
 }
 
-export async function createUser(user) {
+export async function createUser(userData) {
     const response = await fetch(API_URL, {
         method: 'POST',
         headers: getHeaders(),
