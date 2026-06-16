@@ -1,0 +1,96 @@
+/* ============================================================
+   TEMAS POR ROL
+   Cada dashboard envuelve su contenido en una de estas clases.
+   Las variables se definen DENTRO de la clase (no en :root global),
+   así no se pisan entre páginas en una SPA.
+   ============================================================ */
+
+/* USER → azul */
+.theme-user {
+    --primary: #0d6efd;
+    --primary-dark: #0a58ca;
+    --primary-light: #cfe2ff;
+}
+
+/* COACH → verde */
+.theme-coach {
+    --primary: #198754;
+    --primary-dark: #146c43;
+    --primary-light: #d1e7dd;
+}
+
+/* ADMIN → morado */
+.theme-admin {
+    --primary: #6f42c1;
+    --primary-dark: #59359a;
+    --primary-light: #e2d9f3;
+}
+
+/* ------------------------------------------------------------
+   Navbar coloreado según el tema.
+   El HTML original usa bg-primary (azul fijo). Acá lo hacemos
+   seguir el color del rol sobreescribiendo el fondo del navbar
+   cuando está dentro de un contenedor con tema.
+   ------------------------------------------------------------ */
+.theme-user .navbar.bg-primary {
+    background-color: #0d6efd !important;
+}
+
+.theme-coach .navbar.bg-primary {
+    background-color: #198754 !important;
+}
+
+.theme-admin .navbar.bg-primary {
+    background-color: #6f42c1 !important;
+}
+
+/* ------------------------------------------------------------
+   Botones primary dentro de cada tema.
+   Bootstrap genera .btn-primary con su propio azul; lo forzamos
+   al color del tema para que botones y enlaces combinen.
+   ------------------------------------------------------------ */
+.theme-user .btn-primary,
+.theme-user .btn-outline-primary:hover {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.theme-coach .btn-primary,
+.theme-coach .btn-outline-primary:hover {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.theme-admin .btn-primary,
+.theme-admin .btn-outline-primary:hover {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+}
+
+/* Outline primary (texto/borde) por tema */
+.theme-user .btn-outline-primary,
+.theme-user .text-primary {
+    color: #0d6efd !important;
+}
+
+.theme-user .btn-outline-primary {
+    border-color: #0d6efd;
+}
+
+.theme-coach .btn-outline-primary,
+.theme-coach .text-primary {
+    color: #198754 !important;
+}
+
+.theme-coach .btn-outline-primary {
+    border-color: #198754;
+}
+
+.theme-admin .btn-outline-primary,
+.theme-admin .text-primary {
+    color: #6f42c1 !important;
+}
+
+.theme-admin .btn-outline-primary {
+    border-color: #6f42c1;
+}

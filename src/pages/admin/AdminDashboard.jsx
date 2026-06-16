@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import "../../styles/admin.css"; // estilos morado/rojo
+import "../../styles/themes.css";
 import "../../styles/styles.css"; // estilos generales
 
 function AdminDashboard() {
@@ -108,10 +108,10 @@ function AdminDashboard() {
             <Nav.Link as={Link} to="/admin/sports" className="text-white">
               Deportes
             </Nav.Link>
-            <Nav.Link href="/admin/profile" className="text-white">
+            <Nav.Link as={Link} to="/perfil">
               Mi Perfil
             </Nav.Link>
-            <Nav.Link href="/logout" className="text-white">
+            <Nav.Link as={Link} to="/logout">
               Cerrar Sesión
             </Nav.Link>
           </Nav>
@@ -233,11 +233,11 @@ function AdminDashboard() {
             <Nav.Link as={Link} to="/admin/sports" className="text-white">
               Deportes
             </Nav.Link>
-            <Nav.Link href="/admin/profile" className="text-white">
+            <Nav.Link as={Link} to="/miperfil">
               Mi Perfil
             </Nav.Link>
-            <Nav.Link href="/logout" className="text-white">
-              Cerrar Sesión
+            <Nav.Link as={Link} to="/logout">
+            Cerrar Sesión
             </Nav.Link>
           </Nav>
         </Col>

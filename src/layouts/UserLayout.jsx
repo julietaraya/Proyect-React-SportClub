@@ -9,7 +9,7 @@ function UserLayout({ children }) {
       <Navbar className="header" variant="dark">
         <Navbar.Brand>SportClub</Navbar.Brand>
         <Nav className="ml-auto">
-          <Nav.Link href="/profile">Mi Perfil</Nav.Link>
+          <Nav.Link href="/miperfil">Mi Perfil</Nav.Link>
           <Nav.Link href="/logout">Cerrar Sesión</Nav.Link>
         </Nav>
       </Navbar>
