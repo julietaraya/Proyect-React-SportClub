@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/styles.css";
 import "../styles/index.css"; // estilos para login/registro
 
-function Login({ setIsAuth, setUserRole }) {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -12,6 +12,7 @@ function Login({ setIsAuth, setUserRole }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
 
     if (!email || !password) {
       setError("Todos los campos son obligatorios");
@@ -28,22 +29,23 @@ function Login({ setIsAuth, setUserRole }) {
       const data = await response.json();
 
       if (response.ok) {
-        // Guardar token y usuario en localStorage
-        localStorage.setItem("token", data.data.token);
-        localStorage.setItem("user", JSON.stringify(data.data.user));
+        const token = data.data.token;
+        const user = data.data.user;
 
-        // Actualizar estado global
-        setIsAuth(true);
-        setUserRole(data.data.user.role);
+        // Guardar sesión (incluido role suelto, que RoleRoute necesita)
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("role", user.role);
 
-        // Redirigir según rol
-        if (data.data.user.role === "user") navigate("/user/UserDashboard");
-        if (data.data.user.role === "coach") navigate("/coach/CoachDashboard");
-        if (data.data.user.role === "admin") navigate("/admin/AdminDashboard");
+        // Redirigir a las rutas que SÍ existen en AppRoutes
+        if (user.role === "user") navigate("/user/dashboard");
+        else if (user.role === "coach") navigate("/coach/dashboard");
+        else if (user.role === "admin") navigate("/admin/dashboard");
       } else {
         setError(data.message || "Credenciales inválidas");
       }
     } catch (err) {
+      console.error("Error real en login:", err);
       setError("Error de conexión con el servidor");
     }
   };

@@ -1,6 +1,5 @@
 const API_URL = 'http://localhost:3000/api/users'
 
-
 function getToken() {
     return localStorage.getItem('token')
 }
@@ -12,6 +11,12 @@ function getHeaders() {
     }
 }
 
+// Extrae el array/objeto real de la respuesta del backend,
+// que envuelve todo en { ok, message, data }.
+function unwrap(json) {
+    return json?.data ?? json
+}
+
 export async function getUsers() {
     const response = await fetch(API_URL, {
         method: 'GET',
@@ -20,8 +25,9 @@ export async function getUsers() {
     if (!response.ok) {
         throw new Error('Error al obtener usuarios')
     }
-
-    return response.json()
+    const json = await response.json()
+    const data = unwrap(json)
+    return Array.isArray(data) ? data : []
 }
 
 export async function createUser(userData) {
@@ -31,13 +37,13 @@ export async function createUser(userData) {
         body: JSON.stringify(userData),
     })
 
-    const data = await response.json()
+    const json = await response.json()
 
     if (!response.ok) {
-        throw new Error(data.message || 'Error al crear usuario')
+        throw new Error(json.message || 'Error al crear usuario')
     }
 
-    return data
+    return unwrap(json)
 }
 
 export async function updateUser(id, userData) {
@@ -47,13 +53,13 @@ export async function updateUser(id, userData) {
         body: JSON.stringify(userData),
     })
 
-    const data = await response.json()
+    const json = await response.json()
 
     if (!response.ok) {
-        throw new Error(data.message || 'Error al actualizar usuario')
+        throw new Error(json.message || 'Error al actualizar usuario')
     }
 
-    return data
+    return unwrap(json)
 }
 
 export async function deleteUser(id) {

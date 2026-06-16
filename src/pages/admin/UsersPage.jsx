@@ -15,6 +15,7 @@ function UsersPage() {
         try {
             setLoading(true)
             const data = await getUsers()
+            console.log("USUARIOS DEL BACKEND:", data) 
             setUsers(data)
         } catch (error) {
             Swal.fire('Error', error.message, 'error')

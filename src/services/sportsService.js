@@ -1,12 +1,12 @@
-// src/services/sportsService.js
 import axios from "axios";
 
 // Configuración global de axios
-const api = axios.create({ 
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api/sport" 
+const api = axios.create({
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000/api/sport",
 });
 
 // Interceptor para incluir token en cada request
+// (todas las rutas de /sport exigen authenticate en el backend)
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -15,11 +15,10 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// Interceptor de respuesta para manejar errores globales
+// Interceptor de respuesta: si el token expira (401), limpiar sesión
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        // Si el token expira o hay error 401 → redirigir al login
         if (error.response && error.response.status === 401) {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
@@ -32,31 +31,31 @@ api.interceptors.response.use(
 
 // Endpoints del módulo deportes
 export async function getSports() {
-    const res = await api.get("/sports");
+    const res = await api.get("/");
     return res.data.data;
 }
 
 export async function getSportById(id) {
-    const res = await api.get(`/sports/${id}`);
+    const res = await api.get(`/${id}`);
     return res.data.data;
 }
 
 export async function createSport(sport) {
-    const res = await api.post("/sports", sport);
+    const res = await api.post("/", sport);
     return res.data.data;
 }
 
 export async function updateSport(id, sport) {
-    const res = await api.put(`/sports/${id}`, sport);
+    const res = await api.put(`/${id}`, sport);
     return res.data.data;
 }
 
 export async function deleteSport(id) {
-    const res = await api.delete(`/sports/${id}`);
+    const res = await api.delete(`/${id}`);
     return res.data;
 }
 
 export async function changeStatus(id, status) {
-    const res = await api.patch(`/sports/${id}/status`, { status });
+    const res = await api.patch(`/${id}/status`, { status });
     return res.data.data;
 }
